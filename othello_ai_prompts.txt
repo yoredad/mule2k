@@ -1,0 +1,25 @@
+create a plan to implement the game othello in godot 4.6.  design it to fit a phone resolution 1080x2400 with a vertical screen alignment.  implement a one player version against a computer opponent.  give the user the choice to play as black or white.  white always moves first.  the game ends when all tiles are full or there are no valid moves for one of the players.  the computer should have a basic strategy that picks a random valid move.  it should avoid giving the human player the chance to make a corner play on the next move unless no other valid move is available.  a valid move is defined as turning at least one opponent disk in play from the opponent color to the players color.  if there are no available plays for the computer, skip its turn.  if there are no availabe plays for the user present a skip button.  keep a running tally of the current disks that are black and white. display at the top with the labels computer or player depending on the intial color selection.  the game ends when there are no valid plays or all squares are occupied  by discs.  display "New Game" or "Quit" buttons.  New Game resets the board and prompts the user to select their color.  Quit closes the application.  the primary targeted platform for this game is mobile.
+the godot binary is in c:\tools\godot
+create a yin/yang  image to use as this projects game icon for the phone screen.  add this detail to the written plan
+write the plan in detail so that it can be implemented later by another ai session.
+
+implement the plan.  the godot engine binary is in c:\tools\godot.
+
+review the godot project in this folder verify it for correctness and bugs. compare the imlementation to the implementation plan IMPLEMENTATION_PLAN.md.  
+
+free models:
+ling-3.0-flash
+laguna s 2.1
+nemotron 3 ultra
+mimo v2.5
+big pickle
+deepseek v4 flash
+north mini code
+
+Summary Ranking for Programming Design
+DeepSeek V4 Flash Free (Best coherence and reliability)
+MiMo V2.5 Free (Best speed and multimodal capabilities)
+Big Pickle (Popular for coding, subjective preference)
+North Mini Code Free (Best for speed/simple tasks)
+Nemotron 3 Ultra Free (Best for code review, not generation) 
+For complex programming design, start with DeepSeek V4 Flash.  If you need faster responses or multimodal features, use MiMo V2.5. 

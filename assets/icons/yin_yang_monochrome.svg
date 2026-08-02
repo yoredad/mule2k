@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="432" height="432" viewBox="0 0 432 432">
+  <!-- Outer Ring -->
+  <circle cx="216" cy="216" r="126" fill="none" stroke="#FFFFFF" stroke-width="12" />
+  
+  <!-- S-Curve Divider -->
+  <path d="M 216,90 A 63,63 0 0,0 216,216 A 63,63 0 0,1 216,342" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" />
+  
+  <!-- Top Dot (Filled) -->
+  <circle cx="216" cy="153" r="21" fill="#FFFFFF" />
+  
+  <!-- Bottom Dot (Outline) -->
+  <circle cx="216" cy="279" r="21" fill="none" stroke="#FFFFFF" stroke-width="12" />
+</svg>
