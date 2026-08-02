@@ -1,20 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cx64main"]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
-[ext_resource type="Theme" path="res://themes/mobile_theme.tres" id="2_theme"]
-[ext_resource type="Script" path="res://scripts/board_view.gd" id="3_board"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ChoiceBG"]
-bg_color = Color(0.082, 0.165, 0.129, 0.95)
-border_width_left = 6
-border_width_top = 6
-border_width_right = 6
-border_width_bottom = 6
-border_color = Color(0.137, 0.314, 0.239, 1.0)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-corner_radius_bottom_right = 24
-corner_radius_bottom_left = 24
+[ext_resource type="Script" path="res://scripts/board_view.gd" id="2_board"]
+[ext_resource type="Theme" path="res://themes/mobile_theme.tres" id="3_theme"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -23,7 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_theme")
+theme = ExtResource("3_theme")
 script = ExtResource("1_main")
 
 [node name="Background" type="ColorRect" parent="."]
@@ -33,7 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.051, 0.082, 0.067, 1.0)
+color = Color(0.051, 0.1216, 0.0941, 1)
 
 [node name="SafeArea" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -43,57 +31,55 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 48
-theme_override_constants/margin_top = 64
+theme_override_constants/margin_top = 48
 theme_override_constants/margin_right = 48
-theme_override_constants/margin_bottom = 64
+theme_override_constants/margin_bottom = 48
 
 [node name="Page" type="VBoxContainer" parent="SafeArea"]
 layout_mode = 2
-theme_override_constants/separation = 32
+theme_override_constants/separation = 28
 
 [node name="TitleLabel" type="Label" parent="SafeArea/Page"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.961, 0.945, 0.91, 1)
-theme_override_font_sizes/font_size = 76
+custom_minimum_size = Vector2(0, 96)
+theme_type_variation = &"TitleLabel"
 text = "OTHELLO"
 horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="ScoreRow" type="HBoxContainer" parent="SafeArea/Page"]
 layout_mode = 2
-theme_override_constants/separation = 48
-alignment = 1
+custom_minimum_size = Vector2(0, 220)
+theme_override_constants/separation = 24
 
 [node name="WhiteCard" type="PanelContainer" parent="SafeArea/Page/ScoreRow"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"ScoreCard"
 
 [node name="WhiteCardContent" type="VBoxContainer" parent="SafeArea/Page/ScoreRow/WhiteCard"]
 layout_mode = 2
-theme_override_constants/separation = 4
 alignment = 1
+theme_override_constants/separation = 8
 
 [node name="WhiteRoleLabel" type="Label" parent="SafeArea/Page/ScoreRow/WhiteCard/WhiteCardContent"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.667, 0.725, 0.69, 1)
-theme_override_font_sizes/font_size = 38
+theme_type_variation = &"RoleLabel"
 text = "PLAYER"
 horizontal_alignment = 1
 
 [node name="WhiteColorLabel" type="Label" parent="SafeArea/Page/ScoreRow/WhiteCard/WhiteCardContent"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.961, 0.945, 0.91, 1)
-theme_override_font_sizes/font_size = 42
+theme_type_variation = &"SecondaryText"
 text = "WHITE"
 horizontal_alignment = 1
 
 [node name="WhiteCountLabel" type="Label" parent="SafeArea/Page/ScoreRow/WhiteCard/WhiteCardContent"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.961, 0.945, 0.91, 1)
-theme_override_font_sizes/font_size = 80
+theme_type_variation = &"CountLabel"
 text = "2"
 horizontal_alignment = 1
 
@@ -101,89 +87,88 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"ScoreCard"
 
 [node name="BlackCardContent" type="VBoxContainer" parent="SafeArea/Page/ScoreRow/BlackCard"]
 layout_mode = 2
-theme_override_constants/separation = 4
 alignment = 1
+theme_override_constants/separation = 8
 
 [node name="BlackRoleLabel" type="Label" parent="SafeArea/Page/ScoreRow/BlackCard/BlackCardContent"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.667, 0.725, 0.69, 1)
-theme_override_font_sizes/font_size = 38
+theme_type_variation = &"RoleLabel"
 text = "COMPUTER"
 horizontal_alignment = 1
 
 [node name="BlackColorLabel" type="Label" parent="SafeArea/Page/ScoreRow/BlackCard/BlackCardContent"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.961, 0.945, 0.91, 1)
-theme_override_font_sizes/font_size = 42
+theme_type_variation = &"SecondaryText"
 text = "BLACK"
 horizontal_alignment = 1
 
 [node name="BlackCountLabel" type="Label" parent="SafeArea/Page/ScoreRow/BlackCard/BlackCardContent"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.961, 0.945, 0.91, 1)
-theme_override_font_sizes/font_size = 80
+theme_type_variation = &"CountLabel"
 text = "2"
 horizontal_alignment = 1
 
 [node name="BoardRegion" type="AspectRatioContainer" parent="SafeArea/Page"]
 layout_mode = 2
 size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 700)
 stretch_mode = 2
+alignment_horizontal = 1
+alignment_vertical = 1
 
 [node name="Board" type="Control" parent="SafeArea/Page/BoardRegion"]
 unique_name_in_owner = true
 layout_mode = 2
-script = ExtResource("3_board")
+script = ExtResource("2_board")
 
 [node name="StatusPanel" type="PanelContainer" parent="SafeArea/Page"]
-custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
+custom_minimum_size = Vector2(0, 150)
+theme_type_variation = &"StatusPanel"
 
 [node name="StatusLabel" type="Label" parent="SafeArea/Page/StatusPanel"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 44
+theme_type_variation = &"StatusLabel"
 text = "Choose your color"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="SkipSlot" type="CenterContainer" parent="SafeArea/Page"]
-custom_minimum_size = Vector2(0, 140)
 layout_mode = 2
+custom_minimum_size = Vector2(0, 140)
 
 [node name="SkipButton" type="Button" parent="SafeArea/Page/SkipSlot"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 140)
+visible = false
 layout_mode = 2
-theme_override_font_sizes/font_size = 46
-text = "Skip Turn"
+custom_minimum_size = Vector2(360, 96)
+text = "SKIP"
 
 [node name="ActionRow" type="HBoxContainer" parent="SafeArea/Page"]
 layout_mode = 2
-theme_override_constants/separation = 48
-alignment = 1
+custom_minimum_size = Vector2(0, 140)
+theme_override_constants/separation = 28
 
 [node name="NewGameButton" type="Button" parent="SafeArea/Page/ActionRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 140)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 44
-text = "New Game"
+text = "NEW GAME"
 
 [node name="QuitButton" type="Button" parent="SafeArea/Page/ActionRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 140)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 44
-text = "Quit"
+text = "QUIT"
 
 [node name="ColorChoiceOverlay" type="ColorRect" parent="."]
 unique_name_in_owner = true
@@ -193,7 +178,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.051, 0.082, 0.067, 0.85)
+color = Color(0, 0, 0, 0.78)
 
 [node name="ChoiceCenter" type="CenterContainer" parent="ColorChoiceOverlay"]
 layout_mode = 1
@@ -204,48 +189,32 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ChoicePanel" type="PanelContainer" parent="ColorChoiceOverlay/ChoiceCenter"]
-custom_minimum_size = Vector2(880, 750)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ChoiceBG")
+custom_minimum_size = Vector2(880, 0)
+theme_type_variation = &"ChoicePanel"
 
 [node name="ChoiceContent" type="VBoxContainer" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel"]
 layout_mode = 2
-theme_override_constants/separation = 48
-alignment = 1
+theme_override_constants/separation = 36
 
 [node name="ChoiceTitle" type="Label" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel/ChoiceContent"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.961, 0.945, 0.91, 1)
-theme_override_font_sizes/font_size = 62
+theme_type_variation = &"ModalTitle"
 text = "CHOOSE YOUR COLOR"
 horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="ChoiceInstructions" type="Label" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel/ChoiceContent"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.667, 0.725, 0.69, 1)
-theme_override_font_sizes/font_size = 40
+theme_type_variation = &"ModalText"
 text = "White always moves first."
 horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel/ChoiceContent"]
-layout_mode = 2
-theme_override_constants/separation = 36
-alignment = 1
-
-[node name="WhiteChoiceButton" type="Button" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel/ChoiceContent/VBoxContainer"]
+[node name="WhiteChoiceButton" type="Button" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel/ChoiceContent"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(600, 100)
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 44
 text = "PLAY AS WHITE"
 
-[node name="BlackChoiceButton" type="Button" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel/ChoiceContent/VBoxContainer"]
+[node name="BlackChoiceButton" type="Button" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel/ChoiceContent"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(600, 100)
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 44
 text = "PLAY AS BLACK"

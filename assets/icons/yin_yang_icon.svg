@@ -1,26 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-  <!-- Background -->
-  <rect width="1024" height="1024" fill="#123B2D" />
-  
-  <!-- Outer Outline -->
-  <circle cx="512" cy="512" r="362" fill="none" stroke="#09261E" stroke-width="8" />
-  
-  <!-- Main Symbol Body (Left is White, Right is Black) -->
-  <!-- Main White Circle -->
-  <circle cx="512" cy="512" r="358" fill="#F5F1E8" />
-  
-  <!-- Right Black Semi-Circle -->
-  <path d="M 512,154 A 358,358 0 0,1 512,870 Z" fill="#111513" />
-  
-  <!-- Top Black Lobe (curves to the left) -->
-  <circle cx="512" cy="333" r="179" fill="#111513" />
-  
-  <!-- Bottom White Lobe (curves to the right) -->
-  <circle cx="512" cy="691" r="179" fill="#F5F1E8" />
-  
-  <!-- Warm Ivory dot in Top Lobe -->
-  <circle cx="512" cy="333" r="60" fill="#F5F1E8" />
-  
-  <!-- Charcoal dot in Bottom Lobe -->
-  <circle cx="512" cy="691" r="60" fill="#111513" />
+  <rect width="1024" height="1024" fill="#123B2D"/>
+  <path d="M 512,154 A 179,179 0 0,0 512,512 A 179,179 0 0,1 512,870 A 358,358 0 0,1 512,154 Z" fill="#F5F1E8"/>
+  <path d="M 512,154 A 358,358 0 0,1 512,870 A 179,179 0 0,0 512,512 A 179,179 0 0,1 512,154 Z" fill="#111513"/>
+  <circle cx="512" cy="333" r="59.7" fill="#F5F1E8"/>
+  <circle cx="512" cy="691" r="59.7" fill="#111513"/>
+  <circle cx="512" cy="512" r="353" fill="none" stroke="#09261E" stroke-width="10"/>
 </svg>
