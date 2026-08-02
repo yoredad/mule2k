@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://v7uie4swani0"
-path="res://.godot/imported/yin_yang_foreground_432.png-62bd5cf470c0b5785a9c01008ef6ed7b.ctex"
+uid="uid://bwpi45ncqxoa3"
+path="res://.godot/imported/adaptive_background.svg-02abba747f479f6bbc5efd1f81e92a12.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/android/yin_yang_foreground_432.png"
-dest_files=["res://.godot/imported/yin_yang_foreground_432.png-62bd5cf470c0b5785a9c01008ef6ed7b.ctex"]
+source_file="res://assets/icons/adaptive_background.svg"
+dest_files=["res://.godot/imported/adaptive_background.svg-02abba747f479f6bbc5efd1f81e92a12.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

@@ -27,9 +27,12 @@ without user approval:
 9. If only one color has no move, the game continues by passing that color's
    turn. This interpretation is necessary because the requested pass behavior
    conflicts with ending as soon as only one player cannot move.
-10. The computer chooses randomly from valid moves, but avoids a move that gives
-    the human a valid corner move on the immediately following turn whenever a
-    corner-safe alternative exists.
+10. The computer avoids a move that gives the human a valid corner move on the
+    immediately following turn whenever a corner-safe alternative exists. Among
+    corner-safe moves, it uniformly prefers plays on the board edge (all 28
+    perimeter squares, including the corners). Only when no corner-safe move
+    exists does it fall back to a uniformly random choice from all valid moves,
+    without any edge preference.
 11. The Black and White counts remain visible and update after every move.
 12. The score area identifies which color belongs to `Player` and which belongs
     to `Computer`.
@@ -50,6 +53,10 @@ Do not add these features unless requested later:
 - External art packs, fonts, plugins, or test frameworks
 - Complex disc-flip animation
 - Sound or music
+
+The fixed board-edge preference described in decision 10 and section 9.3 is the
+only strategic heuristic allowed. It is not a license for additional positional
+scoring or search.
 
 ## 4. Proposed Project Structure
 
@@ -447,9 +454,14 @@ func get_corner_safe_moves(
 ) -> Array[Vector2i]
 
 func set_seed_for_tests(value: int) -> void
+
+static func is_edge_square(position: Vector2i) -> bool
 ```
 
 ### 9.3 Selection algorithm
+
+An edge square is any square on the board perimeter: `x == 0 || x == 7 ||
+y == 0 || y == 7`. The edge set includes the four corners.
 
 ```text
 valid_moves = all legal computer moves
@@ -466,14 +478,30 @@ for each computer move:
     if none of the human moves is a corner:
         append the computer move to safe_moves
 
-candidates = safe_moves if safe_moves is not empty else valid_moves
+if safe_moves is not empty:
+    edge_safe_moves = [moves in safe_moves that lie on the board edge]
+    candidates = edge_safe_moves if edge_safe_moves is not empty else safe_moves
+else:
+    candidates = valid_moves
+
 return a uniformly random element from candidates
 ```
 
 This is a direct look-ahead for actual corner availability. Do not substitute a
-heuristic that merely avoids squares adjacent to corners. Do not prioritize
-taking corners, edges, or moves with the most captures; all candidates in the
-selected pool remain equally eligible.
+heuristic that merely avoids squares adjacent to corners.
+
+Edge priority applies only inside the corner-safe pool. If every legal move
+exposes a corner, the computer falls back to a uniformly random choice from all
+valid moves without any edge preference, so the human-corner rule is never
+violated by the preference.
+
+A computer move at a corner is itself corner-safe by construction: the corner
+is occupied afterward, so the human cannot take it. Such moves therefore remain
+eligible for the edge pool.
+
+Do not prioritize moves with the most captures or any other positional scoring.
+Within either candidate pool, every move remains equally eligible apart from
+the edge-vs-interior distinction described above.
 
 ## 10. Board View
 
@@ -930,11 +958,16 @@ godot --headless --path . --script res://tests/test_runner.gd
 | One valid move | Returns that move |
 | Safe moves exist | Returned move is always in the corner-safe set |
 | All moves expose a corner | Returned move remains in the full valid set |
+| Edge-safe moves exist | Returned move is always an edge square and corner-safe |
+| Safe but no edge moves | Returned move is in the corner-safe set, with no edge preference possible |
+| Computer corner take | A computer corner capture is corner-safe and eligible for the edge pool |
 | General selection | Returned coordinate is always a legal computer move |
 | Simulation isolation | AI evaluation never changes the live board snapshot |
 
-Construct at least one explicit fixture with both a safe and unsafe computer move
-so corner avoidance is tested deterministically rather than statistically.
+Construct at least one explicit fixture with both a safe and unsafe computer move,
+and one fixture whose safe moves contain both edge and interior squares, so
+corner avoidance and edge preference are tested deterministically rather than
+statistically.
 
 ### 17.3 Parse smoke test
 
@@ -965,6 +998,7 @@ device or emulator:
 | Human cannot move | Skip appears and board is disabled |
 | Human has a move | Skip is hidden |
 | Computer cannot move | Computer automatically passes |
+| Computer edge play | Computer prefers edge squares when corner-safe edge moves exist, and never exposes a corner |
 | Neither can move | Result appears without requiring two manual passes |
 | Full board | Result appears immediately |
 | Rapid repeated tap | Only one legal move is applied |
@@ -983,7 +1017,7 @@ Follow this order so logic is validated before UI complexity is introduced:
 4. Implement `othello_game.gd`.
 5. Implement model tests and make all rule tests pass.
 6. Implement `computer_opponent.gd`.
-7. Add AI corner-safety and fallback tests.
+7. Add AI corner-safety, edge-preference, and fallback tests.
 8. Implement the custom `board_view.gd`.
 9. Create `mobile_theme.tres`.
 10. Build the responsive `main.tscn` scene tree.
@@ -1010,7 +1044,10 @@ The project is complete only when all of these statements are true:
 - Illegal moves never mutate state.
 - The computer returns only legal moves.
 - The computer randomly chooses from corner-safe moves when any exist.
-- The computer falls back to all valid moves when every move exposes a corner.
+- The computer uniformly prefers edge plays, including corners, whenever the
+  corner-safe pool contains at least one edge square.
+- The computer falls back to all valid moves when every move exposes a corner,
+  without any edge preference.
 - The computer automatically passes when it cannot move.
 - The human sees Skip only when no human move exists.
 - The game continues after a single-player pass.

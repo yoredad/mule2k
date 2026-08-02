@@ -1,68 +1,65 @@
 extends SceneTree
 
-func _init() -> void:
-	print("Starting icon generation...")
-	
-	# Create directories if they do not exist
-	var dir := DirAccess.open("res://")
-	if not dir.dir_exists("res://assets/icons/android"):
-		dir.make_dir_recursive("res://assets/icons/android")
-	
-	var err: Error
-	
-	# 1. yin_yang_icon_1024.png (1024x1024, opaque)
-	var img_1024 := Image.load_from_file("res://assets/icons/yin_yang_icon.svg")
-	if img_1024 != null:
-		err = img_1024.save_png("res://assets/icons/yin_yang_icon_1024.png")
-		if err == OK:
-			print("Generated yin_yang_icon_1024.png")
+## Generates the raster launcher PNGs from the SVG masters.
+## Run after a project import:
+##   godot --headless --path . --script res://tools/generate_icons.gd
+
+const SOURCE_MASTER := "res://assets/icons/yin_yang_icon.svg"
+const SOURCE_FOREGROUND := "res://assets/icons/adaptive_foreground.svg"
+const SOURCE_BACKGROUND := "res://assets/icons/adaptive_background.svg"
+const SOURCE_MONOCHROME := "res://assets/icons/adaptive_monochrome.svg"
+
+var failures: Array[String] = []
+
+
+func _initialize() -> void:
+	_generate(SOURCE_MASTER, "res://assets/icons/yin_yang_icon_1024.png", 1024, true)
+	_generate(SOURCE_MASTER, "res://assets/icons/yin_yang_store_512.png", 512, true)
+	_generate(SOURCE_MASTER, "res://assets/icons/android/yin_yang_main_192.png", 192, true)
+	_generate(SOURCE_FOREGROUND, "res://assets/icons/android/yin_yang_foreground_432.png", 432, false)
+	_generate(SOURCE_BACKGROUND, "res://assets/icons/android/yin_yang_background_432.png", 432, true)
+	_generate(SOURCE_MONOCHROME, "res://assets/icons/android/yin_yang_monochrome_432.png", 432, false)
+	if failures.is_empty():
+		print("ALL ICONS GENERATED")
+		quit(0)
+	else:
+		for failure in failures:
+			print("FAIL: " + failure)
+		quit(1)
+
+
+func _generate(source_path: String, target_path: String, target_size: int, require_opaque: bool) -> void:
+	var texture := load(source_path) as Texture2D
+	if texture == null:
+		failures.append("cannot load " + source_path)
+		return
+	var image := texture.get_image()
+	if image == null:
+		failures.append("cannot decode " + source_path)
+		return
+	if image.get_width() != target_size:
+		image.resize(target_size, target_size, Image.INTERPOLATE_LANCZOS)
+	var opaque := true
+	var transparent := false
+	var pixels := image.get_data()
+	for i in range(0, pixels.size(), 4):
+		if pixels[i + 3] < 255:
+			opaque = false
 		else:
-			print("Failed to save yin_yang_icon_1024.png: ", err)
-	else:
-		print("Failed to load yin_yang_icon.svg")
-	
-	# 2. yin_yang_store_512.png (512x512, opaque)
-	# Since load_from_file returns the default rasterized size of SVG (which is 1024x1024), we can resize it.
-	if img_1024 != null:
-		var img_512 := Image.new()
-		img_512.copy_from(img_1024)
-		img_512.resize(512, 512, Image.INTERPOLATE_LANCZOS)
-		err = img_512.save_png("res://assets/icons/yin_yang_store_512.png")
-		if err == OK:
-			print("Generated yin_yang_store_512.png")
-		
-		# 3. android/yin_yang_main_192.png (192x192, opaque)
-		var img_192 := Image.new()
-		img_192.copy_from(img_1024)
-		img_192.resize(192, 192, Image.INTERPOLATE_LANCZOS)
-		err = img_192.save_png("res://assets/icons/android/yin_yang_main_192.png")
-		if err == OK:
-			print("Generated yin_yang_main_192.png")
-	
-	# 4. android/yin_yang_foreground_432.png (432x432, transparent outside)
-	var img_fg_432 := Image.load_from_file("res://assets/icons/yin_yang_icon_transparent.svg")
-	if img_fg_432 != null:
-		err = img_fg_432.save_png("res://assets/icons/android/yin_yang_foreground_432.png")
-		if err == OK:
-			print("Generated yin_yang_foreground_432.png")
-	else:
-		print("Failed to load yin_yang_icon_transparent.svg")
-	
-	# 5. android/yin_yang_background_432.png (432x432, opaque green)
-	var img_bg_432 := Image.create_empty(432, 432, false, Image.FORMAT_RGBA8)
-	img_bg_432.fill(Color("#123B2D"))
-	err = img_bg_432.save_png("res://assets/icons/android/yin_yang_background_432.png")
-	if err == OK:
-		print("Generated yin_yang_background_432.png")
-	
-	# 6. android/yin_yang_monochrome_432.png (432x432, transparent line-art)
-	var img_mono_432 := Image.load_from_file("res://assets/icons/yin_yang_monochrome.svg")
-	if img_mono_432 != null:
-		err = img_mono_432.save_png("res://assets/icons/android/yin_yang_monochrome_432.png")
-		if err == OK:
-			print("Generated yin_yang_monochrome_432.png")
-	else:
-		print("Failed to load yin_yang_monochrome.svg")
-	
-	print("Icon generation completed.")
-	quit(0)
+			transparent = true
+	if require_opaque and not opaque:
+		failures.append("%s is not fully opaque" % target_path)
+		return
+	if not require_opaque and not transparent:
+		failures.append("%s has no transparency" % target_path)
+		return
+	var dir := target_path.get_base_dir().trim_prefix("res://")
+	if not DirAccess.dir_exists_absolute("res://" + dir):
+		var maker := DirAccess.open("res://")
+		if maker == null or maker.make_dir_recursive(dir) != OK:
+			failures.append("cannot create directory " + dir)
+			return
+	if image.save_png("res://" + target_path.trim_prefix("res://")) != OK:
+		failures.append("cannot write " + target_path)
+		return
+	print("  wrote " + target_path)
