@@ -17,6 +17,15 @@ var computer_color: int = OthelloGame.Disc.EMPTY
 var current_valid_moves: Array[Vector2i] = []
 var game_generation: int = 0
 
+## Round history: list of 2D board snapshots taken after both players have gone.
+## Each entry of board_state_list is an 8x8 Array of square-state ints
+## (0 = empty, 1 = white, 2 = black). turn_counter is the index into the list
+## pointing at the currently active round.
+var board_state_list: Array = []
+var round_meta_list: Array = []
+var turn_counter: int = 0
+var _human_acted_this_round: bool = false
+
 @onready var white_role_label: Label = %WhiteRoleLabel
 @onready var white_color_label: Label = %WhiteColorLabel
 @onready var white_count_label: Label = %WhiteCountLabel
@@ -28,6 +37,7 @@ var game_generation: int = 0
 @onready var board: OthelloBoardView = %Board
 @onready var status_label: Label = %StatusLabel
 @onready var skip_button: Button = %SkipButton
+@onready var undo_button: Button = %UndoButton
 @onready var new_game_button: Button = %NewGameButton
 @onready var quit_button: Button = %QuitButton
 @onready var color_choice_overlay: ColorRect = %ColorChoiceOverlay
@@ -38,11 +48,16 @@ var game_generation: int = 0
 func _ready() -> void:
 	board.cell_pressed.connect(_on_board_cell_pressed)
 	skip_button.pressed.connect(_on_skip_pressed)
+	undo_button.pressed.connect(_on_undo_pressed)
 	new_game_button.pressed.connect(_on_new_game_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
 	white_choice_button.pressed.connect(_on_white_choice_pressed)
 	black_choice_button.pressed.connect(_on_black_choice_pressed)
 	game.reset()
+	board_state_list.clear()
+	round_meta_list.clear()
+	turn_counter = 0
+	_human_acted_this_round = false
 	_refresh_ui()
 	_show_color_choice()
 
@@ -51,6 +66,7 @@ func _show_color_choice() -> void:
 	phase = Phase.CHOOSING_COLOR
 	color_choice_overlay.visible = true
 	status_label.text = "Choose your color"
+	_update_undo_button()
 
 
 func _start_game(selected_human_color: int) -> void:
@@ -59,6 +75,7 @@ func _start_game(selected_human_color: int) -> void:
 	human_color = selected_human_color
 	computer_color = OthelloGame.opposite_color(human_color)
 	color_choice_overlay.visible = false
+	_reset_round_history()
 	_refresh_ui()
 	_advance_turn()
 
@@ -80,10 +97,12 @@ func _advance_turn() -> void:
 			skip_button.visible = false
 			status_label.text = "Your turn - %s" % _color_name(current_color)
 		_update_board()
+		_update_undo_button()
 		return
 	phase = Phase.COMPUTER_TURN
 	skip_button.visible = false
 	_update_board()
+	_update_undo_button()
 	if current_valid_moves.is_empty():
 		status_label.text = "Computer has no valid move and passes."
 		_run_computer_action(game_generation, true)
@@ -102,6 +121,11 @@ func _run_computer_action(generation: int, is_pass: bool) -> void:
 		var move := computer.choose_move(game.get_board_copy(), computer_color, human_color)
 		if move != ComputerOpponent.NO_MOVE:
 			game.try_make_move(move)
+	# A full round completed (human already went, computer just went): inspect
+	# the board state, increment the list by one and store a 2D representation.
+	if _human_acted_this_round:
+		_push_round_state()
+		_human_acted_this_round = false
 	_advance_turn()
 
 
@@ -110,6 +134,55 @@ func _is_computer_action_still_valid(generation: int) -> bool:
 		and phase == Phase.COMPUTER_TURN \
 		and not game.is_game_over() \
 		and game.get_current_color() == computer_color
+
+
+## Captures the current turn metadata that accompanies a 2D board snapshot.
+func _capture_round_meta() -> Dictionary:
+	return {
+		"current_color": game.get_current_color(),
+		"game_over": game.is_game_over(),
+		"last_move": game.get_last_move(),
+	}
+
+
+## Starts a fresh round history with the initial board at index 0.
+## Index 0 is always the initial configuration: 2 white and 2 black discs.
+func _reset_round_history() -> void:
+	board_state_list.clear()
+	round_meta_list.clear()
+	_human_acted_this_round = false
+	board_state_list.append(game.get_square_state_2d())
+	round_meta_list.append(_capture_round_meta())
+	turn_counter = 0
+	_update_undo_button()
+
+
+## Inspects the board after both players have gone, increments the list by
+## one and stores a 2D representation (0 = empty, 1 = white, 2 = black).
+func _push_round_state() -> void:
+	while board_state_list.size() > turn_counter + 1:
+		board_state_list.pop_back()
+		round_meta_list.pop_back()
+	board_state_list.append(game.get_square_state_2d())
+	round_meta_list.append(_capture_round_meta())
+	turn_counter = board_state_list.size() - 1
+	_update_undo_button()
+
+
+func can_undo() -> bool:
+	return turn_counter > 0 \
+		and not board_state_list.is_empty() \
+		and (phase == Phase.HUMAN_TURN or phase == Phase.GAME_OVER)
+
+
+func _update_undo_button() -> void:
+	if undo_button == null:
+		return
+	# Disabled whenever the turn counter is at the first entry (0).
+	if turn_counter <= 0:
+		undo_button.disabled = true
+		return
+	undo_button.disabled = not can_undo()
 
 
 func _refresh_ui() -> void:
@@ -126,6 +199,7 @@ func _refresh_ui() -> void:
 		black_role_label.text = "COMPUTER"
 	_update_board()
 	_update_active_card()
+	_update_undo_button()
 
 
 func _update_board() -> void:
@@ -151,6 +225,7 @@ func _finish_game() -> void:
 	phase = Phase.GAME_OVER
 	skip_button.visible = false
 	_update_board()
+	_update_undo_button()
 	var human_count := game.get_disc_count(human_color)
 	var computer_count := game.get_disc_count(computer_color)
 	if human_count > computer_count:
@@ -170,6 +245,11 @@ func _on_board_cell_pressed(position: Vector2i) -> void:
 		return
 	board.set_state(game.get_board_copy(), current_valid_moves, false)
 	if game.try_make_move(position):
+		if game.is_game_over():
+			_push_round_state()
+			_human_acted_this_round = false
+		else:
+			_human_acted_this_round = true
 		_advance_turn()
 	else:
 		_refresh_ui()
@@ -181,10 +261,42 @@ func _on_skip_pressed() -> void:
 	skip_button.visible = false
 	skip_button.disabled = true
 	if game.try_pass():
+		if game.is_game_over():
+			_push_round_state()
+			_human_acted_this_round = false
+		else:
+			_human_acted_this_round = true
 		_advance_turn()
 	else:
 		skip_button.disabled = false
 		_refresh_ui()
+
+
+func _on_undo_pressed() -> void:
+	# Never decrement below the first entry (index 0 = initial 2W/2B board).
+	if turn_counter <= 0:
+		turn_counter = 0
+		_update_undo_button()
+		return
+	if not can_undo():
+		return
+	# Cancel any pending computer timer so it cannot move after the restore.
+	game_generation += 1
+	# Decrement the turn counter and use it as the index into the history list.
+	turn_counter = maxi(0, turn_counter - 1)
+	var board_2d: Array = []
+	for row in board_state_list[turn_counter]:
+		board_2d.append((row as Array).duplicate())
+	var meta: Dictionary = round_meta_list[turn_counter]
+	game.restore_square_state_2d(
+		board_2d,
+		int(meta["current_color"]),
+		bool(meta["game_over"]),
+		meta["last_move"]
+	)
+	_human_acted_this_round = false
+	current_valid_moves = []
+	_advance_turn()
 
 
 func _on_new_game_pressed() -> void:
@@ -195,6 +307,11 @@ func _on_new_game_pressed() -> void:
 	computer_color = OthelloGame.Disc.EMPTY
 	skip_button.visible = false
 	skip_button.disabled = false
+	# Reset the history list and the turn counter for the new game.
+	board_state_list.clear()
+	round_meta_list.clear()
+	turn_counter = 0
+	_human_acted_this_round = false
 	game.reset()
 	_refresh_ui()
 	_show_color_choice()

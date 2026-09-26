@@ -15,6 +15,12 @@ enum Disc {
 
 const BOARD_SIZE := 8
 
+## Square-state values used for round-history snapshots.
+## Each cell of a 2D snapshot stores 0 = empty, 1 = white, 2 = black.
+const SQUARE_EMPTY := 0
+const SQUARE_WHITE := 1
+const SQUARE_BLACK := 2
+
 const DIRECTIONS: Array[Vector2i] = [
 	Vector2i(-1, -1),
 	Vector2i(0, -1),
@@ -48,6 +54,40 @@ func get_board_copy() -> Array[PackedInt32Array]:
 	for row in _board:
 		copy.append(row.duplicate())
 	return copy
+
+
+## Returns the board as a plain 2D Array of square-state ints
+## (0 = empty, 1 = white, 2 = black) for round-history storage.
+func get_square_state_2d() -> Array:
+	var state: Array = []
+	for y in range(BOARD_SIZE):
+		var row: Array = []
+		for x in range(BOARD_SIZE):
+			row.append(disc_to_square_state(_board[y][x]))
+		state.append(row)
+	return state
+
+
+## Restores a snapshot previously captured with get_square_state_2d().
+## The 2D array is deep-copied on the way in so later mutations of the
+## caller's array cannot affect the live board.
+func restore_square_state_2d(
+	state_2d: Array,
+	current_color: int,
+	game_over: bool,
+	last_move: Vector2i
+) -> void:
+	var board: Array[PackedInt32Array] = []
+	for y in range(BOARD_SIZE):
+		var row := PackedInt32Array()
+		row.resize(BOARD_SIZE)
+		for x in range(BOARD_SIZE):
+			row[x] = square_state_to_disc(int(state_2d[y][x]))
+		board.append(row)
+	_board = board
+	_current_color = current_color
+	_game_over = game_over
+	_last_move = last_move
 
 
 func get_current_color() -> int:
@@ -124,6 +164,26 @@ static func opposite_color(color: int) -> int:
 		Disc.BLACK:
 			return Disc.WHITE
 		Disc.WHITE:
+			return Disc.BLACK
+	return Disc.EMPTY
+
+
+## Maps a Disc value to its square-state int (0 = empty, 1 = white, 2 = black).
+static func disc_to_square_state(disc: int) -> int:
+	match disc:
+		Disc.WHITE:
+			return SQUARE_WHITE
+		Disc.BLACK:
+			return SQUARE_BLACK
+	return SQUARE_EMPTY
+
+
+## Maps a square-state int (0 = empty, 1 = white, 2 = black) back to a Disc value.
+static func square_state_to_disc(square_state: int) -> int:
+	match square_state:
+		SQUARE_WHITE:
+			return Disc.WHITE
+		SQUARE_BLACK:
 			return Disc.BLACK
 	return Disc.EMPTY
 
