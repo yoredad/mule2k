@@ -20,3 +20,8 @@ mono_crash.*.json
 *.apk
 *.exe
 *.pck
+build/
+
+# Android custom build template (reinstall via Project > Install Android
+# Build Template; Gradle outputs regenerate on every export)
+android/build/
