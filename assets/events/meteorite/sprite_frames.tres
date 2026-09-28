@@ -1,0 +1,22 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/events/meteorite/frame_00.png" id="1_kbhsu"]
+[ext_resource type="Texture2D" path="res://assets/events/meteorite/frame_01.png" id="2_ug5e0"]
+[ext_resource type="Texture2D" path="res://assets/events/meteorite/frame_02.png" id="3_5pdug"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_kbhsu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ug5e0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5pdug")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]

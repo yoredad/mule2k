@@ -1,0 +1,38 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/events/sunspots/frame_00.png" id="1_srvna"]
+[ext_resource type="Texture2D" path="res://assets/events/sunspots/frame_01.png" id="2_r0q1t"]
+[ext_resource type="Texture2D" path="res://assets/events/sunspots/frame_02.png" id="3_pbxr1"]
+[ext_resource type="Texture2D" path="res://assets/events/sunspots/frame_03.png" id="4_rapp1"]
+[ext_resource type="Texture2D" path="res://assets/events/sunspots/frame_04.png" id="5_mhwtd"]
+[ext_resource type="Texture2D" path="res://assets/events/sunspots/frame_05.png" id="6_d71td"]
+[ext_resource type="Texture2D" path="res://assets/events/sunspots/frame_06.png" id="7_5o8r1"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_srvna")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_r0q1t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_pbxr1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_rapp1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_mhwtd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_d71td")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_5o8r1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]

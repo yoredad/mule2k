@@ -1,0 +1,50 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/events/acidrain/frame_00.png" id="1_jsl4q"]
+[ext_resource type="Texture2D" path="res://assets/events/acidrain/frame_01.png" id="2_42mhw"]
+[ext_resource type="Texture2D" path="res://assets/events/acidrain/frame_02.png" id="3_qcne1"]
+[ext_resource type="Texture2D" path="res://assets/events/acidrain/frame_03.png" id="4_c0ein"]
+[ext_resource type="Texture2D" path="res://assets/events/acidrain/frame_04.png" id="5_53fj3"]
+[ext_resource type="Texture2D" path="res://assets/events/acidrain/frame_05.png" id="6_w240d"]
+[ext_resource type="Texture2D" path="res://assets/events/acidrain/frame_06.png" id="7_axm3b"]
+[ext_resource type="Texture2D" path="res://assets/events/acidrain/frame_07.png" id="8_slptr"]
+[ext_resource type="Texture2D" path="res://assets/events/acidrain/frame_08.png" id="9_4hjrc"]
+[ext_resource type="Texture2D" path="res://assets/events/acidrain/frame_09.png" id="10_qvsin"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_jsl4q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_42mhw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_qcne1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_c0ein")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_53fj3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_w240d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_axm3b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_slptr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_4hjrc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_qvsin")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]

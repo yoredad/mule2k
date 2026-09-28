@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3]
 
-[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
-[ext_resource type="Script" path="res://scripts/board_view.gd" id="2_board"]
-[ext_resource type="Theme" path="res://themes/mobile_theme.tres" id="3_theme"]
+[ext_resource type="Script" path="res://scripts/ui/board_view.gd" id="1_board"]
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="2_hud"]
+[ext_resource type="Script" path="res://scripts/ui/game_ui.gd" id="3_ui"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -11,217 +11,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("3_theme")
-script = ExtResource("1_main")
+script = ExtResource("3_ui")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="BoardView" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.051, 0.1216, 0.0941, 1)
+script = ExtResource("1_board")
 
-[node name="SafeArea" type="MarginContainer" parent="."]
+[node name="Hud" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 48
-theme_override_constants/margin_top = 48
-theme_override_constants/margin_right = 48
-theme_override_constants/margin_bottom = 48
-
-[node name="Page" type="VBoxContainer" parent="SafeArea"]
-layout_mode = 2
-theme_override_constants/separation = 28
-
-[node name="TitleLabel" type="Label" parent="SafeArea/Page"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 96)
-theme_type_variation = &"TitleLabel"
-text = "OTHELLO"
-horizontal_alignment = 1
-
-[node name="ScoreRow" type="HBoxContainer" parent="SafeArea/Page"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 220)
-theme_override_constants/separation = 24
-
-[node name="WhiteCard" type="PanelContainer" parent="SafeArea/Page/ScoreRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"ScoreCard"
-
-[node name="WhiteCardContent" type="VBoxContainer" parent="SafeArea/Page/ScoreRow/WhiteCard"]
-layout_mode = 2
-alignment = 1
-theme_override_constants/separation = 8
-
-[node name="WhiteRoleLabel" type="Label" parent="SafeArea/Page/ScoreRow/WhiteCard/WhiteCardContent"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"RoleLabel"
-text = "PLAYER"
-horizontal_alignment = 1
-
-[node name="WhiteColorLabel" type="Label" parent="SafeArea/Page/ScoreRow/WhiteCard/WhiteCardContent"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SecondaryText"
-text = "WHITE"
-horizontal_alignment = 1
-
-[node name="WhiteCountLabel" type="Label" parent="SafeArea/Page/ScoreRow/WhiteCard/WhiteCardContent"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CountLabel"
-text = "2"
-horizontal_alignment = 1
-
-[node name="BlackCard" type="PanelContainer" parent="SafeArea/Page/ScoreRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"ScoreCard"
-
-[node name="BlackCardContent" type="VBoxContainer" parent="SafeArea/Page/ScoreRow/BlackCard"]
-layout_mode = 2
-alignment = 1
-theme_override_constants/separation = 8
-
-[node name="BlackRoleLabel" type="Label" parent="SafeArea/Page/ScoreRow/BlackCard/BlackCardContent"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"RoleLabel"
-text = "COMPUTER"
-horizontal_alignment = 1
-
-[node name="BlackColorLabel" type="Label" parent="SafeArea/Page/ScoreRow/BlackCard/BlackCardContent"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SecondaryText"
-text = "BLACK"
-horizontal_alignment = 1
-
-[node name="BlackCountLabel" type="Label" parent="SafeArea/Page/ScoreRow/BlackCard/BlackCardContent"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CountLabel"
-text = "2"
-horizontal_alignment = 1
-
-[node name="BoardRegion" type="AspectRatioContainer" parent="SafeArea/Page"]
-layout_mode = 2
-size_flags_vertical = 3
-custom_minimum_size = Vector2(0, 700)
-stretch_mode = 2
-alignment_horizontal = 1
-alignment_vertical = 1
-
-[node name="Board" type="Control" parent="SafeArea/Page/BoardRegion"]
-unique_name_in_owner = true
-layout_mode = 2
-script = ExtResource("2_board")
-
-[node name="StatusPanel" type="PanelContainer" parent="SafeArea/Page"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 150)
-theme_type_variation = &"StatusPanel"
-
-[node name="StatusLabel" type="Label" parent="SafeArea/Page/StatusPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"StatusLabel"
-text = "Choose your color"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="SkipSlot" type="CenterContainer" parent="SafeArea/Page"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 140)
-
-[node name="SkipButton" type="Button" parent="SafeArea/Page/SkipSlot"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-custom_minimum_size = Vector2(360, 96)
-text = "SKIP"
-
-[node name="ActionRow" type="HBoxContainer" parent="SafeArea/Page"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 140)
-theme_override_constants/separation = 28
-
-[node name="NewGameButton" type="Button" parent="SafeArea/Page/ActionRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "NEW GAME"
-
-[node name="UndoButton" type="Button" parent="SafeArea/Page/ActionRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "UNDO"
-
-[node name="QuitButton" type="Button" parent="SafeArea/Page/ActionRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "QUIT"
-
-[node name="ColorChoiceOverlay" type="ColorRect" parent="."]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = -188.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.78)
-
-[node name="ChoiceCenter" type="CenterContainer" parent="ColorChoiceOverlay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ChoicePanel" type="PanelContainer" parent="ColorChoiceOverlay/ChoiceCenter"]
-layout_mode = 2
-custom_minimum_size = Vector2(880, 0)
-theme_type_variation = &"ChoicePanel"
-
-[node name="ChoiceContent" type="VBoxContainer" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel"]
-layout_mode = 2
-theme_override_constants/separation = 36
-
-[node name="ChoiceTitle" type="Label" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel/ChoiceContent"]
-layout_mode = 2
-theme_type_variation = &"ModalTitle"
-text = "CHOOSE YOUR COLOR"
-horizontal_alignment = 1
-
-[node name="ChoiceInstructions" type="Label" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel/ChoiceContent"]
-layout_mode = 2
-theme_type_variation = &"ModalText"
-text = "White always moves first."
-horizontal_alignment = 1
-
-[node name="WhiteChoiceButton" type="Button" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel/ChoiceContent"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "PLAY AS WHITE"
-
-[node name="BlackChoiceButton" type="Button" parent="ColorChoiceOverlay/ChoiceCenter/ChoicePanel/ChoiceContent"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "PLAY AS BLACK"
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 560.0
+offset_bottom = 320.0
+script = ExtResource("2_hud")

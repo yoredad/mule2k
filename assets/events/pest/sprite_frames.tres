@@ -1,0 +1,74 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_00.png" id="1_0yuvr"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_01.png" id="2_bmo3c"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_02.png" id="3_prl3d"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_03.png" id="4_iorbo"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_04.png" id="5_tsomw"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_05.png" id="6_ngsg0"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_06.png" id="7_hcr5f"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_07.png" id="8_8isdg"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_08.png" id="9_jspn0"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_09.png" id="10_00fbv"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_10.png" id="11_27x8y"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_11.png" id="12_gfs56"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_12.png" id="13_35cca"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_13.png" id="14_jruvg"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_14.png" id="15_6ryfh"]
+[ext_resource type="Texture2D" path="res://assets/events/pest/frame_15.png" id="16_bt3fs"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0yuvr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_bmo3c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_prl3d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_iorbo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_tsomw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ngsg0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_hcr5f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_8isdg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_jspn0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_00fbv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_27x8y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_gfs56")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_35cca")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_jruvg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_6ryfh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_bt3fs")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]

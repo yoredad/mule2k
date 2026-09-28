@@ -1,0 +1,26 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/events/pirates/frame_00.png" id="1_jrldn"]
+[ext_resource type="Texture2D" path="res://assets/events/pirates/frame_01.png" id="2_30gsg"]
+[ext_resource type="Texture2D" path="res://assets/events/pirates/frame_02.png" id="3_0jf72"]
+[ext_resource type="Texture2D" path="res://assets/events/pirates/frame_03.png" id="4_3n675"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_jrldn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_30gsg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0jf72")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_3n675")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]

@@ -1,0 +1,42 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/events/radiation/frame_00.png" id="1_hqofu"]
+[ext_resource type="Texture2D" path="res://assets/events/radiation/frame_01.png" id="2_2pro6"]
+[ext_resource type="Texture2D" path="res://assets/events/radiation/frame_02.png" id="3_v8ekr"]
+[ext_resource type="Texture2D" path="res://assets/events/radiation/frame_03.png" id="4_efg23"]
+[ext_resource type="Texture2D" path="res://assets/events/radiation/frame_04.png" id="5_1s8fh"]
+[ext_resource type="Texture2D" path="res://assets/events/radiation/frame_05.png" id="6_c0pdj"]
+[ext_resource type="Texture2D" path="res://assets/events/radiation/frame_06.png" id="7_u5ts8"]
+[ext_resource type="Texture2D" path="res://assets/events/radiation/frame_07.png" id="8_gws7n"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hqofu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_2pro6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_v8ekr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_efg23")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_1s8fh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_c0pdj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_u5ts8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_gws7n")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
