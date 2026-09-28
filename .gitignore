@@ -19,7 +19,6 @@ mono_crash.*.json
 # Builds
 *.apk
 *.exe
-*.pck
 build/
 
 # Android custom build template (reinstall via Project > Install Android
